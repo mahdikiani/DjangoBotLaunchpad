@@ -32,4 +32,6 @@ faker
 
 ipython
 
-usso>=0.12
+singleton_package
+telegram-bale-bot
+
