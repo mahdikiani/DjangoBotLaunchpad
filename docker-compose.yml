@@ -27,7 +27,8 @@ services:
     command: celery -A server.celery worker
     # command: python -m debugpy --listen 0.0.0.0:3000 -m celery -A server.celery worker -l info
     volumes:
-      - ./web:/app
+      - ./web/logs/celery.log:/app/logs/celery.log
+    #   - ./web:/app
     # ports:
     #   - 3040:3000
     networks:
@@ -52,6 +53,8 @@ services:
       - data
       - traefik-net
     volumes:
+      # - ./web/db.sqlite3:/app/db.sqlite3
+      - ./web/logs/web.log:/app/logs/web.log
       - ./web:/app
     labels:
       - "traefik.enable=true"

@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     "import_export",
     "jalali_date",
     #
+    "apps.bot",
 ]
 
 MIDDLEWARE = [
@@ -138,7 +139,7 @@ LOGGING = {
         },
     },
     "handlers": {
-        "file": {
+        "web": {
             "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "./logs/web.log",
@@ -151,16 +152,27 @@ LOGGING = {
             "formatter": "verbose",
             "maxBytes": 1024 * 1024 * 100,  # 100 mb
         },
+        # "bot": {
+        #     "level": "INFO",
+        #     "class": "logging.FileHandler",
+        #     "filename": "./logs/bot.log",
+        #     "formatter": "verbose",
+        # },
     },
     "loggers": {
         "django": {
-            "handlers": ["file"],
+            "handlers": ["web"],
             "level": "INFO",
             "propagate": True,
         },
         "celery": {
             "handlers": ["celery"],
             "level": "INFO" if DEBUG else "WARNING",
+            "propagate": True,
+        },
+        "bot": {
+            "handlers": ["web"],
+            "level": "INFO",
             "propagate": True,
         },
     },
