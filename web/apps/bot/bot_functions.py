@@ -1,11 +1,9 @@
 import logging
-import telebot
 
+import telebot
 from django.contrib.auth.models import User
 from django.utils import timezone
-from singleton import Singleton
 from telebot.handler_backends import BaseMiddleware
-
 from utils.basic import get_all_subclasses
 
 from . import Bot
@@ -59,6 +57,8 @@ class UserMiddleware(BaseMiddleware):
             except Exception as e:
                 logger.error(f"Error creating user: {e}")
                 return
+        else:
+            user = qs.first()
 
         user.last_login = timezone.now()
 
@@ -128,7 +128,7 @@ class BotFunctions:
             return
 
         for bot_cls in get_all_subclasses(Bot.BaseBot):
-            bot = bot_cls()
+            bot: Bot.BaseBot = bot_cls()
             setup_bot(bot)
 
         self.is_setup = True
